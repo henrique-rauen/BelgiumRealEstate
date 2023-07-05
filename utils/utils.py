@@ -33,6 +33,12 @@ def remove_unwanted_data(df,dic_unwanted):
         df = df[df[key] != value]
     return df
 
+def convert_column_type(df,dic_convert):
+    for key,value in dic_convert.items():
+
+        df = df[df[key] != value]
+    return df
+
 def remove_empty_spaces(df):
     
     return df
