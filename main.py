@@ -3,7 +3,9 @@
 #Created by Henrique Rauen (rickgithub@hsj.email)
 #Last Modified: 2023-07-05 10:32
 import utils.utils as u
+import utils.plots as p
 
 df = u.clean_df("data.csv")
-print(df)
+#print(df)
+p.plot(df)
 df.to_csv("teste_data.csv",index=False)
