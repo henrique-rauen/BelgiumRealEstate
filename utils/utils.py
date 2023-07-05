@@ -12,26 +12,24 @@ def clean_df(data):
     else:
         print("unable to recognize argument")
         return None
-    NaN_defaults = ({False :  ["Furnished", "Garden"]
-                    ,-1 : ["Listing_ID", "Price", "Bedroom", "Living_area",
-                           "Surface_of_land", "Facade","Garden_area"]
-                    , "not_available" : ["Kitchen", "State of the building", "District"]
-                    })
-    df = fill_NaN(df, NaN_defaults)
-    unwanted_data = ({"Type" : "apartment group"
-                     ,"Listing_ID" : -1})
-    df = remove_unwanted_data(df, unwanted_data)
-    unwanted_partial = ({"Postal_code" : " "
-                        ,"Price" : "-"
-                       })
-    df = remove_unwanted_partial(df, unwanted_partial)
-    convert_column = ({int : ["Listing_ID", "Bedroom", "Living_area",
-                      "Surface_of_land", "Facade", "Garden_area"]
-                    })
-    df = convert_column_type(df,convert_column)
-    df = remove_empty_spaces(df,["Type", "Subtype", "Listing_address",
+    df = fill_NaN(df, {False :  ["Furnished", "Garden"]
+                        ,-1 : ["Listing_ID", "Price", "Bedroom", "Living_area",
+                                "Surface_of_land", "Facade","Garden_area"]
+                        ,"not_available" : ["Kitchen", "State of the building", "District"]
+                      })
+    df = remove_unwanted_data(df, {"Type" : "apartment group"
+                                    ,"Listing_ID" : -1
+                                  })
+    df = remove_unwanted_partial(df, {"Postal_code" : " "
+                                        ,"Price" : "-"
+                                     })
+    df = convert_column_type(df, {int : ["Listing_ID", "Bedroom", "Living_area",
+                                            "Surface_of_land", "Facade", "Garden_area"]
+                                 })
+    df = remove_empty_spaces(df, ["Type", "Subtype", "Listing_address",
                                  "Locality", "District", "Kitchen",
-                                 "State of the building"])
+                                 "State of the building"
+                                 ])
     return df
 
 def fill_NaN(df,dic_defaults={}):
