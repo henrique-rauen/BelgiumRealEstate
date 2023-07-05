@@ -21,6 +21,7 @@ def clean_df(data):
     df = fill_NaN(df, NaN_defaults)
     convert_column = ({int : ["Listing_ID"]
                     })
+    df = convert_column_type(df,convert_column)
     return df
 
 def fill_NaN(df,dic_defaults={}):
@@ -36,8 +37,8 @@ def remove_unwanted_data(df,dic_unwanted):
 
 def convert_column_type(df,dic_convert):
     for key,value in dic_convert.items():
-
-        df = df[df[key] != value]
+        for column in value:
+            df[column] = df[column].apply(key)
     return df
 
 def remove_empty_spaces(df):
