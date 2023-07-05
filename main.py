@@ -6,4 +6,4 @@ import utils.utils as u
 
 df = u.clean_df("data.csv")
 print(df)
-df.to_csv("teste_data.csv")
+df.to_csv("teste_data.csv",index=False)
