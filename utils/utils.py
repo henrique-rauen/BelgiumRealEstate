@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
-#Last Modified: 2023-07-05 10:10
+#Last Modified: 2023-07-05 10:38
 import numpy as np
 import pandas as pd
 
@@ -13,8 +13,15 @@ def clean_df(data):
     else:
         print("unable to recognize argument")
         return None
-    cleaned = remove_empty_spaces(df)
+    unwanted_data = ({"Type" : "apartment group"
+                    })
+    cleaned = remove_unwanted_data(df, unwanted_data)
     return cleaned
+
+def remove_unwanted_data(df,dic_unwanted):
+    for key,value in dic_unwanted.items():
+        df = df[df[key] != value]
+    return df
 
 def remove_empty_spaces(df):
     
