@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
-#Last Modified: 2023-07-05 10:38
+#Last Modified: 2023-07-05 11:08
 import numpy as np
 import pandas as pd
 
@@ -13,7 +13,8 @@ def clean_df(data):
     else:
         print("unable to recognize argument")
         return None
-    unwanted_data = ({"Type" : "apartment group"
+    unwanted_data = ({"Type" : "apartment group",
+                      "Listing_ID": np.NaN
                     })
     cleaned = remove_unwanted_data(df, unwanted_data)
     return cleaned
