@@ -29,6 +29,9 @@ def clean_df(data):
                       "Surface_of_land", "Facade", "Garden_area"]
                     })
     df = convert_column_type(df,convert_column)
+    df = remove_empty_spaces(df,["Type", "Subtype", "Listing_address",
+                                 "Locality", "District", "Kitchen",
+                                 "State of the building"])
     return df
 
 def fill_NaN(df,dic_defaults={}):
@@ -57,6 +60,7 @@ def convert_column_type(df,dic_convert):
     print("Converted Columns")
     return df
 
-def remove_empty_spaces(df):
-    
+def remove_empty_spaces(df, columns):
+    for col in columns:
+        df[col] = df[col].apply(str.strip)
     return df
