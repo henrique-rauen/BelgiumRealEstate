@@ -12,8 +12,10 @@ def clean_df(data):
     else:
         print("unable to recognize argument")
         return None
-    NaN_defaults = ({False :  ["Furnished"]
-                    ,-1 : ["Listing_ID", "Price"]
+    NaN_defaults = ({False :  ["Furnished", "Garden"]
+                    ,-1 : ["Listing_ID", "Price", "Bedroom", "Living_area",
+                           "Surface_of_land", "Facade","Garden_area"]
+                    , "not_available" : ["Kitchen", "State of the building", "District"]
                     })
     df = fill_NaN(df, NaN_defaults)
     unwanted_data = ({"Type" : "apartment group"
