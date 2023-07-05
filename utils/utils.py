@@ -1,7 +1,6 @@
 #! /usr/bin/python3
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
-#Last Modified: 2023-07-05 11:35
 import numpy as np
 import pandas as pd
 
