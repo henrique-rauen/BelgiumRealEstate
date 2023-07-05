@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
-#Last Modified: 2023-07-05 10:59
+#Last Modified: 2023-07-05 11:31
 import numpy as np
 import pandas as pd
 
@@ -16,12 +16,16 @@ def clean_df(data):
     unwanted_data = ({"Type" : "apartment group"
                     })
     cleaned = remove_unwanted_data(df, unwanted_data)
+    NaN_defaults = ({False :  ["Furnished"]
+                    })
+    cleaned = fill_NaN(df, NaN_defaults)
     return cleaned
 
 def fill_NaN(df,dic_defaults={}):
     for key,value in dic_defaults.items():
         for column in value:
-            df[column]=df[column]
+            df[column]=df[column].fillna(key)
+    return df
 
 def remove_unwanted_data(df,dic_unwanted):
     for key,value in dic_unwanted.items():
