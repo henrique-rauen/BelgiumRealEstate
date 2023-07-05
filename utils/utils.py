@@ -24,7 +24,8 @@ def clean_df(data):
                                         ,"Price" : "-"
                                      })
     df = convert_column_type(df, {int : ["Listing_ID", "Bedroom", "Living_area",
-                                            "Surface_of_land", "Facade", "Garden_area"]
+                                            "Surface_of_land", "Facade",
+                                            "Garden_area", "Price"]
                                  })
     df = remove_empty_spaces(df, ["Type", "Subtype", "Listing_address",
                                  "Locality", "District", "Kitchen",
