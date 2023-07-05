@@ -12,14 +12,16 @@ def clean_df(data):
     else:
         print("unable to recognize argument")
         return None
-    unwanted_data = ({"Type" : "apartment group",
-                      "Listing_ID": np.NaN
+    unwanted_data = ({"Type" : "apartment group"
                     })
-    cleaned = remove_unwanted_data(df, unwanted_data)
+    df = remove_unwanted_data(df, unwanted_data)
     NaN_defaults = ({False :  ["Furnished"]
+                    ,-1 : ["Listing_ID", "Price"]
                     })
-    cleaned = fill_NaN(df, NaN_defaults)
-    return cleaned
+    df = fill_NaN(df, NaN_defaults)
+    convert_column = ({int : ["Listing_ID"]
+                    })
+    return df
 
 def fill_NaN(df,dic_defaults={}):
     for key,value in dic_defaults.items():
