@@ -6,11 +6,11 @@ def correlation_ratio(categories, values):
     categories = np.array(categories)
     values = np.array(values)
 
-    ssw = 0
-    ssb = 0
+    ss_category = 0
+    ss_total = 0
     for category in set(categories): #Iterate only through distinct categories
         subgroup = values[np.where(categories == category)[0]]
-        ssw += sum((subgroup-np.mean(subgroup))**2)
-        ssb += len(subgroup)*(np.mean(subgroup)-np.mean(values))**2
+        ss_category += sum((subgroup-np.mean(subgroup))**2)
+        ss_total += len(subgroup)*(np.mean(subgroup)-np.mean(values))**2
 
-    return (ssb / (ssb + ssw))**.5
+    return (ss_total / (ss_total + ss_category))**.5
