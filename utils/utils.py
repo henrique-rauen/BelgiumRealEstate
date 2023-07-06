@@ -25,7 +25,8 @@ def clean_df(data):
                                      })
     df = convert_column_type(df, {int : ["Listing_ID", "Bedroom", "Living_area",
                                             "Surface_of_land", "Facade",
-                                            "Garden_area", "Price"]
+                                            "Garden_area", "Price",
+                                         "Postal_code"]
                                  })
     df = remove_empty_spaces(df, ["Type", "Subtype", "Listing_address",
                                  "Locality", "District", "Kitchen",
@@ -35,6 +36,9 @@ def clean_df(data):
     df = df[~df.index.duplicated()]
     df = df[~df.duplicated()]
     df = df[df["Bedroom"] <10] #Like c'mon, I don't care for those
+    zips = pd.read_json("zipcode-belgium.json")
+    zips=zips[~zips.zip.duplicated()]
+    df = pd.merge(df, zips, left_on="Postal_code", right_on="zip", how="left")
     return df
 
 def fill_NaN(df,dic_defaults={}):
