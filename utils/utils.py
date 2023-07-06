@@ -19,6 +19,7 @@ def clean_df(data):
                       })
     df = remove_unwanted_data(df, {"Type" : "apartment group"
                                     ,"Listing_ID" : -1
+                                    ,"Price" : -1
                                   })
     df = remove_unwanted_partial(df, {"Postal_code" : " "
                                         ,"Price" : "-"
@@ -32,6 +33,10 @@ def clean_df(data):
                                  "Locality", "District", "Kitchen",
                                  "State of the building"
                                  ])
+    #Turns all str columns into category columns
+    for col in ["Type","Subtype","Listing_address","Locality","District","Kitchen"
+                ,"State of the building", "URL"]:
+        df[col]= df[col].astype('category')
     df.set_index("Listing_ID",inplace=True)
     df = df[~df.index.duplicated()]
     df = df[~df.duplicated()]
