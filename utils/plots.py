@@ -11,5 +11,6 @@ def plot(df):
 #                 (df["Price"] > 80000)], x="Price", y="Living_area",hue="Type")
     data = df.loc[:, ["Locality", "Price"]]
     data = data.groupby("Locality",as_index=False).mean().sort_values(by="Price")
-    sns.relplot(data=data,x="Locality", y="Price")
+    print(data)
+    #sns.relplot(data=data,x="Locality", y="Price")
     plt.show()
