@@ -12,6 +12,9 @@ def clean_df(data):
     else:
         print("unable to recognize argument")
         return None
+    zips = pd.read_json("zipcode-belgium.json") #Adds the info from zip
+    zips=zips[~zips.zip.duplicated()]
+    df = pd.merge(df, zips, left_on="Postal_code", right_on="zip", how="left")
     df = fill_NaN(df, {False :  ["Furnished", "Garden"]
                         ,-1 : ["Listing_ID", "Price", "Bedroom", "Living_area",
                                 "Surface_of_land", "Facade","Garden_area"]
@@ -42,9 +45,6 @@ def clean_df(data):
     df = df[~df.duplicated()]
     df = df[df["Bedroom"] <10] #Like c'mon, I don't care for those
     df = df[df["Postal_code"] <9999] #Weird zip code, few results get the knife
-    zips = pd.read_json("zipcode-belgium.json")
-    zips=zips[~zips.zip.duplicated()]
-    df = pd.merge(df, zips, left_on="Postal_code", right_on="zip", how="left")
     return df
 
 def fill_NaN(df,dic_defaults={}):

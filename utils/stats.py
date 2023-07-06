@@ -14,4 +14,4 @@ def correlation_ratio(categories, values):
         ss_category += sum((subgroup-np.mean(subgroup))**2)
         ss_outside += len(subgroup)*(np.mean(subgroup)-np.mean(values))**2
 
-    return (ss_outside / (ss_total + ss_category))**.5
+    return (ss_outside / (ss_outside + ss_category))**.5
