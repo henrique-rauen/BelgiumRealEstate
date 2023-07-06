@@ -36,6 +36,7 @@ def clean_df(data):
     df = df[~df.index.duplicated()]
     df = df[~df.duplicated()]
     df = df[df["Bedroom"] <10] #Like c'mon, I don't care for those
+    df = df[df["Postal_code"] <9999] #Weird zip code, few results get the knife
     zips = pd.read_json("zipcode-belgium.json")
     zips=zips[~zips.zip.duplicated()]
     df = pd.merge(df, zips, left_on="Postal_code", right_on="zip", how="left")
