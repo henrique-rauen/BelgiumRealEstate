@@ -13,5 +13,8 @@ def plot(df):
     #data = data.groupby("Locality",as_index=False).Price.agg(["mean","count"])
     #data = data[data["count"]>10].sort_values("count")
     print(data)
-    sns.histplot(data=data,x="Bedroom")
+    data = data[(data["Living_area"] > 0) & (data["Living_area"] < 2000)]
+    print(data.groupby("Type", as_index=False).agg({"Living_area" :
+                                                    ["mean"]}))
+    sns.histplot(data=data,x="Living_area",hue="Type")
     plt.show()
