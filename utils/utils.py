@@ -33,6 +33,7 @@ def clean_df(data):
     df.set_index("Listing_ID",inplace=True)
     df = df[~df.index.duplicated()]
     df = df[~df.duplicated()]
+    df = df[df["Bedroom"] <10] #Like c'mon, I don't care for those
     return df
 
 def fill_NaN(df,dic_defaults={}):
