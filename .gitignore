@@ -1,6 +1,0 @@
-*.csv
-__*
-activate
-*.swp
-*.json
-.gitignore
