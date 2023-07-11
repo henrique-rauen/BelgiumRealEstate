@@ -3,3 +3,4 @@ __*
 activate
 *.swp
 *.json
+.gitignore
