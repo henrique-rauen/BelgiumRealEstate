@@ -4,6 +4,8 @@
 import numpy as np
 
 def correlation_ratio(categories, values):
+    """Calculates the correlation ratio between a numeric variable and a
+    category. Receives 2 pd.Series containing the categories and the values"""
     categories = np.array(categories)
     values = np.array(values)
 
