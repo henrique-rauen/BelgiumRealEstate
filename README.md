@@ -1,6 +1,7 @@
 # Analyzing Data using pandas.
 
-This repo uses pandas to analyze real estate data from Belgium. The data was extracted from [immoweb](https://www.immoweb.be) using [this scraper](https://github.com/henrique-rauen/Wikipedia-Scraper) scraper.
+This repo uses pandas to analyze real estate data from Belgium. The data was extracted from [immoweb](https://www.immoweb.be) using [this scraper](https://github.com/henrique-rauen/Wikipedia-Scraper)
+<br>
 ![Sample of the output](assets/output.png "Listing Price per Province")
 ![Sample of the output](assets/corr.png "Correlation")
 ![Sample of the output](assets/cumcities.png "Listings per city")
