@@ -18,7 +18,8 @@ def clean_df(data):
     zips["zip"]=zips["zip"].astype("string")
     df = pd.merge(df, zips, left_on="Postal_code", right_on="zip")
     df = fill_NaN(df, {False :  ["Furnished", "Garden"]
-                         ,-1 : ["Listing_ID", "Price", "city", "Postal_code"]
+                         ,-1 : ["Listing_ID", "Price", "city", "Postal_code",
+                                "Living_area"]
                         ,"not_available" : ["Kitchen", "State of the building", "District"]
                       })
     df = remove_unwanted_partial(df, {"Postal_code" : " "
