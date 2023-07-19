@@ -29,6 +29,7 @@ def clean_df(data):
                                     ,"Listing_ID" : -1
                                     ,"Price" : -1
                                     ,"city" : -1
+                                    , "Living_area" : -1
                                   })
     df = convert_column_type(df, {float : ["Listing_ID", "Bedroom", "Living_area",
                                             "Surface_of_land", "Facade",
