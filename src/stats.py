@@ -45,6 +45,7 @@ def grad_descent(grad,model,X,y,theta,learning_rate, n):
     return theta
 
 def coef_determination(y, pred):
+    """Computes R^2 for a pair of values and predicted values (y and pred)"""
     u = ((y - pred)**2).sum()
     v = ((y - y.mean())**2).sum()
     return 1 - u/v
