@@ -108,3 +108,20 @@ def plot(df):
         )
 
     plt.show()
+
+def plot_liv(df, district = None):
+    if district:
+        plot = sns.scatterplot(data=df[df["District"] == district]
+                               , x="Living_area"
+                               , y="Price"
+                               , hue="Type"
+                               , alpha=0.5)
+    else:
+        plot = sns.scatterplot(data=df
+                               , x="Living_area"
+                               , y="Price"
+                               , hue="Type"
+                               , alpha=0.5)
+    plot.set(title="Price vs Living area separated by Type"
+             , xlabel="Living Area"
+             , ylabel="Price")
