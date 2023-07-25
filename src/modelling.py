@@ -49,7 +49,7 @@ print(f"Avg Score for linear model on fancy residences by top 10 districts: {res
 
 result = m.apply_model(LinearRegression(), df_fancy.loc[~df_fancy["District"].isin(district_list), ["Price", "Living_area"]])
 print(f"Avg Score for linear model on fancy residences outside top 10 districts: {result[1]}")
-
+print(result[0].get_params())
 #Looking at non linear models
 df_dummies = pd.get_dummies(df[["Type"
        , "Subtype"
