@@ -1,71 +1,71 @@
 #! /usr/bin/python3
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
-from utils import clean_df
-from plot_funcs import outliers
-from model_funcs import predict_from_model, prepare_df
-import modelling as m
+from . import utils as u
+from . import plot_funcs as pf
+from . import model_funcs as mf
+from . import modelling as m
+#from utils import clean_df
+#from plot_funcs import outliers
+#from model_funcs import predict_from_model, prepare_df
+#import modelling as m
 import pickle
 
 class Model():
     def __init__(self):
         try:
-            with open("fancy_district_model.pkl", "rb") as file:
+            with open("models/fancy_district_model.pkl", "rb") as file:
                 self._fancy_district_model = pickle.load(file)
-            with open("fancy_model.pkl", "rb") as file:
+            with open("models/fancy_model.pkl", "rb") as file:
                 self._fancy_model = pickle.load(file)
-            with open("ordinary_district_model.pkl", "rb") as file:
+            with open("models/ordinary_district_model.pkl", "rb") as file:
                 self._ordinary_district_model = pickle.load(file)
-            with open("ordinary_model.pkl", "rb") as file:
+            with open("models/ordinary_model.pkl", "rb") as file:
                 self._ordinary_model = pickle.load(file)
         except:
-            self.retrain_model(self,df)
-            self.__init__(self)
+            df = u.clean_df("data/data.csv")
+            self.retrain_model(df)
+            self.__init__()
         #Deafult train and prediction columns
         self._predict_columns = ["Living_area"]
         self._train_columns = ["Living_area","Price"]
         #Default Filter Operations and values
-        self._fancy_filters = {"Subtype" : [pd.DataFrame.__eq__,['triplex'
-                                                                ,'castle'
-                                                                ,"exceptional property"]
-                                            ]
-                               ,"Surface_of_land": [pd.DataFrame.__gt__, 2000]
-                               ,"Open Fire": [pd.DataFrame.__eq__, [True]]
-                              }
+        #self._fancy_filters = {"Subtype" : [pd.DataFrame.__eq__,['triplex'
+        #                                                        ,'castle'
+        #                                                        ,"exceptional property"]
+        #                                    ]
+        #                       ,"Surface_of_land": [pd.DataFrame.__gt__, 2000]
+        #                       ,"Open Fire": [pd.DataFrame.__eq__, [True]]
+        #                      }
 
     def retrain_model(self, df):
-        df = clean_df(df)
-        df = outliers(df)
-        df_fancy = select_fancy_properties(df)
+        df = pf.outliers(df)
+        df_fancy = m.select_fancy_properties(df)
         district_list=df_fancy["District"].value_counts()[0:10].index.to_list()
         #Apply model to fancy homes by district
-        result = m.apply_model_district(LinearRegression(), df_fancy, district_list)
-        with open("fancy_district_model.pkl", "wb") as file:
-            pickle.dumps(result[0],file)
+        result = mf.train_model_district(df_fancy, district_list)
+        with open("models/fancy_district_model.pkl", "wb") as file:
+            pickle.dump(result[0],file)
         #Apply model to remaining fancy homes
-        result = m.apply_model(LinearRegression()
-                            ,df_fancy.loc[
+        result = mf.train_model(df_fancy.loc[
                                     ~df_fancy["District"].isin(district_list)
                                     ,["Price", "Living_area"]
-                                        ]
-                              )
-        with open("fancy_model.pkl", "wb") as file:
-            pickle.dumps(result[0],file)
+                                            ])
+        with open("models/fancy_model.pkl", "wb") as file:
+            pickle.dump(result[0],file)
         df_ordinary = df[~df.index.isin(df_fancy.index)]
         district_list=df["District"].value_counts()[0:15].index.to_list()
         #Apply model to ordinary homes by district
-        result = m.apply_model_district(LinearRegression(), df_ordinary, district_list)
-        with open("ordinary_district_model.pkl", "wb") as file:
-            pickle.dumps(result[0],file)
+        result = mf.train_model_district(df_ordinary, district_list)
+        with open("models/ordinary_district_model.pkl", "wb") as file:
+            pickle.dump(result[0],file)
         #Apply model to remaining ordinary homes
-        result = m.apply_model(LinearRegression()
-                            ,df_ordinary.loc[
+        result = mf.train_model(df_ordinary.loc[
                                     ~df_ordinary["District"].isin(district_list)
                                     ,["Price", "Living_area"]
-                                        ]
-                              )
-        with open("ordinary_model.pkl", "wb") as file:
-            pickle.dumps(result[0],file)
+                                        ])
+        with open("models/ordinary_model.pkl", "wb") as file:
+            pickle.dump(result[0],file)
 
     def apply_model(self, df):
         df["Predictions"] = 0

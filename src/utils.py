@@ -13,7 +13,7 @@ def clean_df(data):
     else:
         print("unable to recognize argument")
         return None
-    zips = pd.read_json("../data/zipcode-belgium.json") #Adds the info from zip
+    zips = pd.read_json("data/zipcode-belgium.json") #Adds the info from zip
     zips=zips[~zips.zip.duplicated()]
     zips["zip"]=zips["zip"].astype("string")
     df = pd.merge(df, zips, left_on="Postal_code", right_on="zip")

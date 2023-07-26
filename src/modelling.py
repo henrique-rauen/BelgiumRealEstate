@@ -1,9 +1,9 @@
 #! /usr/bin/python3
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
-from utils import clean_df
-from plot_funcs import living_price, outliers
-import model_funcs as m
+from . import utils as u
+from . import plot_funcs as pf
+from . import model_funcs as m
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -36,37 +36,37 @@ def select_non_fancy_properties(df):
                         ])
     df_non_fancy.drop_duplicates(inplace=True)
     return df_non_fancy
+if __name__ == "__main__":
+    df = u.clean_df("../data/data.csv")
+    df = outliers(df)
+    df_fancy = select_fancy_properties(df)
+    result = m.apply_model(LinearRegression(), df_fancy[["Price", "Living_area"]])
+    print(f"Avg Score for linear model on fancy residences: {result[1]}")
 
-df = clean_df("../data/data.csv")
-df = outliers(df)
-df_fancy = select_fancy_properties(df)
-result = m.apply_model(LinearRegression(), df_fancy[["Price", "Living_area"]])
-print(f"Avg Score for linear model on fancy residences: {result[1]}")
+    district_list=df_fancy["District"].value_counts()[0:10].index.to_list()
+    result = m.apply_model_district(LinearRegression(), df_fancy, district_list)
+    print(f"Avg Score for linear model on fancy residences by top 10 districts: {result[1]}")
 
-district_list=df_fancy["District"].value_counts()[0:10].index.to_list()
-result = m.apply_model_district(LinearRegression(), df_fancy, district_list)
-print(f"Avg Score for linear model on fancy residences by top 10 districts: {result[1]}")
+    result = m.apply_model(LinearRegression(), df_fancy.loc[~df_fancy["District"].isin(district_list), ["Price", "Living_area"]])
+    print(f"Avg Score for linear model on fancy residences outside top 10 districts: {result[1]}")
+    print(result[0].get_params())
+    #Looking at non linear models
+    df_dummies = pd.get_dummies(df[["Type"
+           , "Subtype"
+           , "Open Fire"
+           , "State of the building"
+           , "Kitchen"
+           , "Furnished"
+           , "District"
+           ]])
+    df_dummies = pd.concat([df[["Price"
+                               , "Living_area"
+                               , "Bedroom"
+                               , "Garden"
+                               , "Open Fire"
+                               , "Swimming_pool"
+                                ]], df_dummies], axis=1)
 
-result = m.apply_model(LinearRegression(), df_fancy.loc[~df_fancy["District"].isin(district_list), ["Price", "Living_area"]])
-print(f"Avg Score for linear model on fancy residences outside top 10 districts: {result[1]}")
-print(result[0].get_params())
-#Looking at non linear models
-df_dummies = pd.get_dummies(df[["Type"
-       , "Subtype"
-       , "Open Fire"
-       , "State of the building"
-       , "Kitchen"
-       , "Furnished"
-       , "District"
-       ]])
-df_dummies = pd.concat([df[["Price"
-                           , "Living_area"
-                           , "Bedroom"
-                           , "Garden"
-                           , "Open Fire"
-                           , "Swimming_pool"
-                            ]], df_dummies], axis=1)
-
-print("Avg Score for decision tree: ", m.apply_model(
-                                       DecisionTreeRegressor(max_leaf_nodes = 27)
-                                       , df_dummies, True)[1])
+    print("Avg Score for decision tree: ", m.apply_model(
+                                           DecisionTreeRegressor(max_leaf_nodes = 27)
+                                           , df_dummies, True)[1])

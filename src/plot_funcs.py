@@ -3,7 +3,7 @@
 #Created by Henrique Rauen (rickgithub@hsj.email)
 import seaborn as sns
 import pandas as pd
-import stats as s
+from . import stats as s
 import matplotlib.pyplot as plt
 
 def outliers(df):
@@ -16,9 +16,9 @@ def outliers(df):
     living_outliers = distance.loc[distance["Living_area"] > 3, "Living_area"]
     outliers=pd.concat([price_outliers, bedroom_outliers,living_outliers], axis=1)
 
-    plot = sns.kdeplot(outliers)
-    plot.set(title="Outliers", ylabel="Listing ID", xlabel="STD away from average")
-    plt.show()
+#    plot = sns.kdeplot(outliers)
+#    plot.set(title="Outliers", ylabel="Listing ID", xlabel="STD away from average")
+#    plt.show()
     return df[~df.index.isin(living_outliers.index)]
 
 def hist_living(df):

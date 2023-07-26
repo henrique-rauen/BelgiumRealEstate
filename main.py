@@ -2,15 +2,14 @@
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
 #Last Modified: 2023-07-05 10:32
-import utils.utils as u
-#import utils.plots as p
-import data_exploration.plots_exploration as pe
+import src.utils as u
+import src.explorations as pe
 import pandas as pd
 import numpy as np
-import utils.stats as s
+import src.stats as s
 from sklearn.model_selection import train_test_split
 
-df = u.clean_df("data.csv")
+df = u.clean_df("data/data.csv")
 #print(df)
 pe.plot(df)
 df.to_csv("teste_data.csv",index=False)
@@ -38,4 +37,3 @@ df.to_csv("teste_data.csv",index=False)
 #
 #print(f"Score on the training data: {s.coef_determination(X_train,y_train)}")
 #print(f"Score on the test data: {s.coef_determination(y_test,s.linear_regression(X_test, result))}")
-
