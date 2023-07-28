@@ -33,7 +33,7 @@ In order to install all required libraries run `pip install -r requirements.txt`
 
 * API
     1. In order to deploy the API using docker just build an image based on `Dockerfile` in the root directory of this repo (`docker build . -t immo-eliza-api`)
-    2. run the docker container `docker run --name immo-eliza -v .:/app/ -p 80:80 immo-eliza-api`. That will run the API on localhost on port 80. Further documentation on the API can be found [here](http://github.com/)
+    2. run the docker container `docker run --name immo-eliza -v .:/app/ -p 80:80 immo-eliza-api`. That will run the API on localhost on port 80. Further documentation on the API can be found [here](https://github.com/henrique-rauen/BelgiumRealEstate/blob/main/docs/API.md)
     3. To stop the API run `docker stop immo-eliza` and to start again run `docker start immo-eliza`
 
 ## Context
