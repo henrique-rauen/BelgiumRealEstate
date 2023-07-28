@@ -15,7 +15,7 @@ tags_metadata = [
         "description": "Shows data format for prediction request",
         "externalDocs": {
             "description": "Full docs",
-            "url": "https://github.com/henrique-rauen//"
+            "url": "https://github.com/henrique-rauen/BelgiumRealEstate/blob/main/docs/API.md#data_format"
         }
     },
     {
@@ -23,7 +23,7 @@ tags_metadata = [
         "description": "Yields a prediction for a given set of parameters",
         "externalDocs": {
             "description": "Full docs",
-            "url": "https://github.com/henrique-rauen//"
+            "url": "https://github.com/henrique-rauen/BelgiumRealEstate/blob/main/docs/API.md#get_predictions"
         }
     },
     {
@@ -31,7 +31,7 @@ tags_metadata = [
         "description": "Updates the model with a given dataframe",
         "externalDocs": {
             "description": "Full docs",
-            "url": "https://github.com/henrique-rauen//"
+            "url": "https://github.com/henrique-rauen/BelgiumRealEstate/blob/main/docs/API.md#update_model"
         }
     }
 ]

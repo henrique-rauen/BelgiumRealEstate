@@ -4,10 +4,8 @@
 
 This repo uses pandas to analyze real estate data from Belgium. As the result of the analysis we build and deploy a prediction model for real estate prices in Belgium. The data was extracted from [immoweb](https://www.immoweb.be) using [this scraper](https://github.com/henrique-rauen/Wikipedia-Scraper)
 <br>
-![Sample of the output](assets/output.png "Listing Price per Province")
-![Sample of the output](assets/corr.png "Correlation")
-![Sample of the output](assets/cumcities.png "Listings per city")
-![Sample of the output](assets/dist_corr.png "Distribution of Correlation")
+![Sample of analysis](assets/where.png "m² price all over Belgium")
+![Sample of the API](assets/sample.png "Sample of the API")
 
 ## Installation
 

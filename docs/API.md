@@ -22,10 +22,14 @@ More than one sample can be offered for simultaneos predictions. Data must be se
 	,'Type': ['house',] 
 	,'Subtype': ['exceptional property',] 
 	,'District':['Brussels',] 
-	,'Open Fire': [True,] 
+	,'Open Fire': [true,] 
 	,'Surface_of_land': [2000,] 
-	}"
+	}
 }
+```
+sample return
+```
+{"status_code":200,"prediction":[486288.13625903835]}
 ```
 or for simultaneous requests:
 ```
@@ -34,16 +38,20 @@ or for simultaneous requests:
 	,'Type': ['house','apartment'] 
 	,'Subtype': ['exceptional property','apartment'] 
 	,'District':['Brussels','Antwerp']
-	,'Open Fire': [True,False] 
+	,'Open Fire': [true,false] 
 	,'Surface_of_land': [2000,0] 
-	}"
+	}
 }
+```
+sample result:
+```
+{"status_code":200,"prediction":[781729.7985905008,476706.6146512912]}
 ```
 
 ## update_model/
 
 POST endpoint that updates the model given a new training dataset. The dataset must be sent in the body of the
-request as dictionary of parameters : list of values. Sample below.
+request as dictionary follwing the `pandas.DataFrame.to_json()` standard. Sample below.
 ```
 {"URL":
 	{
