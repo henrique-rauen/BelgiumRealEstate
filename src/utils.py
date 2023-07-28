@@ -69,8 +69,8 @@ def clean_df(data):
 def outliers(df):
     """Remove outliers as defined by asssets more than 3 STD away
     from average on the columns price, Bedroom and Living_area"""
-    std = df.select_dtypes('float').std()
-    distance = abs(df.select_dtypes('float')-df.select_dtypes('float').mean()).div(std)
+    std = df.select_dtypes('number').std()
+    distance = abs(df.select_dtypes('number')-df.select_dtypes('number').mean()).div(std)
     price_outliers = distance.loc[distance["Price"] > 3, "Price"]
     bedroom_outliers = distance.loc[distance["Bedroom"] > 3, "Bedroom"]
     living_outliers = distance.loc[distance["Living_area"] > 3, "Living_area"]
@@ -92,7 +92,8 @@ def remove_unwanted_partial(df,dic_partial):
         Remove rows from df where column column_name CONTAINS unnaceptable_str
         """
     for key,value in dic_partial.items():
-        df = df[~df[key].str.contains(value)]
+        if df[key].dtype == str:
+            df = df[~df[key].str.contains(value)]
     return df
 
 def remove_unwanted_data(df,dic_unwanted):

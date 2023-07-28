@@ -22,8 +22,7 @@ class Model():
             print("Model files not found, trying to train new model based "
                   + "on data/data.csv")
             try:
-                df = u.clean_df("data/data.csv")
-                self.retrain_model(df)
+                Model.retrain_model("data/data.csv")
                 self.__init__()
             except:
                 print("Unable to train model, object will be empty")
@@ -31,7 +30,9 @@ class Model():
         self._predict_columns = ["Living_area", "Type"]
         self._train_columns = self._predict_columns + ["Price"]
 
-    def retrain_model(self, df):
+    @staticmethod
+    def retrain_model(data):
+        df = u.clean_df(data)
         df = u.outliers(df)[0]
         df_fancy = mf.select_fancy_properties(df)
         #Apply model to fancy homes by district
