@@ -2,9 +2,7 @@
 
 #Created by Henrique Rauen (rickgithub@hsj.email)
 from . import utils as u
-from . import plot_funcs as pf
 from . import model_funcs as mf
-from . import modelling as m
 import pickle
 
 class Model():
@@ -34,8 +32,8 @@ class Model():
         self._train_columns = self._predict_columns + ["Price"]
 
     def retrain_model(self, df):
-        df = pf.outliers(df)
-        df_fancy = m.select_fancy_properties(df)
+        df = u.outliers(df)[0]
+        df_fancy = mf.select_fancy_properties(df)
         #Apply model to fancy homes by district
         district_list=df_fancy["District"].value_counts()[0:10].index.to_list()
         result = mf.train_model_district(df_fancy, district_list)
@@ -59,7 +57,7 @@ class Model():
             pickle.dump(result[0],file)
 
     def _preprocess_data(self, df):
-        df_fancy = m.select_fancy_properties(df)
+        df_fancy = mf.select_fancy_properties(df)
         df_fancy_in_district = (df_fancy[df_fancy["District"]
                                 .isin(self._fancy_district_model.keys())])
         df_fancy_out_district = (df_fancy[~df_fancy["District"]

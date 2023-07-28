@@ -1,7 +1,8 @@
 FROM ubuntu:latest
-RUN apt-get update &&  apt-get install python3 -y
+RUN apt-get update &&  apt-get install python3 pip -y
 RUN mkdir app
-COPY ../requirements.txt app/requirements.txt
+COPY docker_requirements.txt app/requirements.txt
 WORKDIR /app
 RUN pip install -r requirements.txt
-ENTRYPOINT uvicorn app:app --reload
+#RUN uvicorn app:app --reload
+ENTRYPOINT ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80", "--reload"]

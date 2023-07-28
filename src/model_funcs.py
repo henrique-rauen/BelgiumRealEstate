@@ -7,6 +7,34 @@ from sklearn.linear_model import LinearRegression
 import pandas as pd
 import numpy as np
 
+def select_fancy_properties(df):
+    fancy_subtypes = ['triplex', 'castle', "exceptional property"]
+    df_fancy = df[df["Subtype"].isin(fancy_subtypes)]
+    df_fancy = pd.concat([df_fancy
+                        , df[df["Surface_of_land"] > 2000]
+                        , df[df["Open Fire"] == True]
+                        ])
+    df_fancy.drop_duplicates(inplace=True)
+    return df_fancy
+
+def select_non_fancy_properties(df):
+    non_fancy_subtypes = ["flat studio"
+                          ,"loft"
+                          ,"kot"
+                          ,"other property"
+                          ,"mixed use building"
+                         ]
+    df_non_fancy = df[df["Subtype"].isin(non_fancy_subtypes)]
+    df_non_fancy = pd.concat([df_non_fancy
+                        , df_non_fancy[df_non_fancy["Kitchen"] == "not installed"]
+                        , df_non_fancy[df_non_fancy["Kitchen"] == "usa not installed"]
+                        , df_non_fancy[df_non_fancy["State of the building"] == "TO_BE_DONE_UP"]
+                        , df_non_fancy[df_non_fancy["State of the building"] == "TO_RENOVATE"]
+                        , df_non_fancy[df_non_fancy["State of the building"] == "TO_RESTORE"]
+                        ])
+    df_non_fancy.drop_duplicates(inplace=True)
+    return df_non_fancy
+
 def train_model(df,model=LinearRegression(), show_individual_scores=False):
     """ For a given 'model' and 'df', applies the model 20 times with random test
     sampling and returns the last model and the avg score of the 20 iterations.

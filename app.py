@@ -5,12 +5,28 @@ from src import model
 import pandas as pd
 from fastapi import FastAPI, Body
 
-app = FastAPI()
+description = """
+This webApp allows you access to a modelling suit capable of predicting prices
+of residences in Belggium using a few parameters.
+"""
 
-#@app.get("/model")
-#def get():
-#
-#    return msg
+app = FastAPI()
+title = "Immo Eliza modelling suit"
+description = description
+summary = "THE place to be if you want to know the price of your residence!"
+contact = {"name": "Henrique Rauen", "url": "github.com/henrique-rauen"
+           , "email": "rickgithub@hsj.email"}
+
+@app.get("/")
+def get():
+    msg = {"data_format": "{'data' : {'Living_area': list(int) 'Type':"
+           + "list('house' | 'apartment'), 'Subtype': list('triplex' | "
+           + "'castle' | 'exceptional property' | 'others'), 'District':"
+           + "list(str), 'Open Fire': list(bool)"
+           +", 'Surface_of_land': list(int)}}"
+         , "options": "Multiple simultaneous requests are allowed"
+          }
+    return msg
 
 @app.post("/get_prediction/")
 def get_prediction(payload : dict = Body()):
@@ -19,21 +35,27 @@ def get_prediction(payload : dict = Body()):
                         ,"District"
                         ,"Subtype"
                         ,"Open Fire"
-                        ,"Surface_of_land"
+                       ,"Surface_of_land"
                        ]
-    if not all(v in payload.keys() for v in mandatory_fields):
-        return ({'result' : 'Not all required fields were added, make sure the input is'
-                + ' correct'})
-    my_model = model.Model()
-    data = pd.DataFrame.from_dict(payload)
-    data["Type"] = data["Type"].fillna("house")
-    data["Living_area"] = data["Living_area"].fillna(0)
-    result = my_model.apply_model(data)
-    return result.to_json()
-
-#dt = pd.read_csv("teste_data.csv")
-#my_model = model.Model()
-##dt = dt[dt["Open Fire"]==True]
-#dt = dt.head(6060)
-#result = my_model.apply_model(dt)
-#print(result[["District", "Subtype", "Living_area","Open Fire","Surface_of_land","Price","Predictions"]])
+    msg ={}
+    if "data" in payload.keys():
+        if not all(v in payload["data"].keys() for v in mandatory_fields):
+            msg["status_code"]= 400
+            msg["error"]="Not all required fields were found"
+            msg["prediction"]=[]
+            #msg = ({'result' : 'Not all required fields were added, make sure the input is'
+            #        + ' correct'})
+        else:
+            my_model = model.Model()
+            data = pd.DataFrame.from_dict(payload["data"])
+            data["Type"] = data["Type"].fillna("house")
+            data["Living_area"] = data["Living_area"].fillna(0)
+            result = my_model.apply_model(data)
+            msg["status_code"]= 200
+            msg["prediction"]=result["Predictions"].values.tolist()
+            #msg = result.to_json()
+    else:
+        msg["status_code"]= 400
+        msg["error"]="Input must constain 'data' field"
+        msg["prediction"]=[]
+    return msg

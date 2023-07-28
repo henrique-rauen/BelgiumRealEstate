@@ -6,20 +6,10 @@ import pandas as pd
 from . import stats as s
 import matplotlib.pyplot as plt
 
-def outliers(df):
-    """Remove outliers as defined by asssets more than 3 STD away
-    from average on the columns price, Bedroom and Living_area"""
-    std = df.select_dtypes('float').std()
-    distance = abs(df.select_dtypes('float')-df.select_dtypes('float').mean()).div(std)
-    price_outliers = distance.loc[distance["Price"] > 3, "Price"]
-    bedroom_outliers = distance.loc[distance["Bedroom"] > 3, "Bedroom"]
-    living_outliers = distance.loc[distance["Living_area"] > 3, "Living_area"]
-    outliers=pd.concat([price_outliers, bedroom_outliers,living_outliers], axis=1)
-
-#    plot = sns.kdeplot(outliers)
-#    plot.set(title="Outliers", ylabel="Listing ID", xlabel="STD away from average")
-#    plt.show()
-    return df[~df.index.isin(living_outliers.index)]
+def outliers(outliers):
+    plot = sns.kdeplot(outliers)
+    plot.set(title="Outliers", ylabel="Listing ID", xlabel="STD away from average")
+    plt.show()
 
 def hist_living(df):
     """Creates a histogram of living area on the given df

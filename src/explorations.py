@@ -5,7 +5,7 @@ from . import plot_funcs as p
 from . import utils as u
 if __name__ == "__main__":
     df = u.clean_df("../data/data.csv")
-    df_no_outliers = p.outliers(df)
+    df_no_outliers = u.outliers(df)
     plot(df_no_outliers)
 
 def plot(df_no_outliers):
